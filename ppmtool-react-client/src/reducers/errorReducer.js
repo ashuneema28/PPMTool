@@ -1,5 +1,4 @@
 import { GET_ERRORS } from "../actions/types";
-import { func } from "prop-types";
 
 const initialState = {};
 
