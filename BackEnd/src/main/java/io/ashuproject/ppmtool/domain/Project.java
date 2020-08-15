@@ -3,6 +3,7 @@ package io.ashuproject.ppmtool.domain;
 //mport org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -33,11 +34,22 @@ public class Project {
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_At;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+    private Backlog backlog;
+
     public Project() {
     }
 
     public Long getId() {
         return id;
+    }
+
+    public Backlog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
     }
 
     public void setId(Long id) {
