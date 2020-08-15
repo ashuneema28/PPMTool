@@ -12,14 +12,15 @@ import org.springframework.stereotype.Service;
 public class ProjectService {
 
     @Autowired
-    private BacklogRepository backlogRepository;
-
-    @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private BacklogRepository backlogRepository;
+
     public Project saveOrUpdateProject(Project project){
-        try {
+        try{
             project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+
             if(project.getId()==null){
                 Backlog backlog = new Backlog();
                 project.setBacklog(backlog);
@@ -30,20 +31,25 @@ public class ProjectService {
             if(project.getId()!=null){
                 project.setBacklog(backlogRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase()));
             }
+
             return projectRepository.save(project);
+
+        }catch (Exception e){
+            throw new ProjectIdException("Project ID '"+project.getProjectIdentifier().toUpperCase()+"' already exists");
         }
-        catch (Exception ex){
-            throw new ProjectIdException("Project Id '"+project.getProjectIdentifier().toUpperCase() + "' alresdy exists");
-        }
+
     }
+
 
     public Project findProjectByIdentifier(String projectId){
 
-        Project project  = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
 
-        if(project==null){
-            throw new ProjectIdException("Project Id '"+projectId.toUpperCase() + "' does not exist");
+        if(project == null){
+            throw new ProjectIdException("Project ID '"+projectId+"' does not exist");
+
         }
+
 
         return project;
     }
@@ -52,13 +58,15 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public void deleteProjectByIdentifier(String projectId){
-        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
 
-        if(project==null){
-            throw new ProjectIdException("Cannot delete project  '"+projectId.toUpperCase() + "' as it does not exist");
+    public void deleteProjectByIdentifier(String projectid){
+        Project project = projectRepository.findByProjectIdentifier(projectid.toUpperCase());
+
+        if(project == null){
+            throw  new  ProjectIdException("Cannot Project with ID '"+projectid+"'. This project does not exist");
         }
 
         projectRepository.delete(project);
     }
+
 }

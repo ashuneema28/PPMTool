@@ -4,6 +4,8 @@ package io.ashuproject.ppmtool.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Backlog {
@@ -15,17 +17,13 @@ public class Backlog {
     private String projectIdentifier;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "project_id", nullable = false)
+    @JoinColumn(name="project_id",nullable = false)
     @JsonIgnore
     private Project project;
 
-    public Project getProject() {
-        return project;
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "backlog")
+    private List<ProjectTask> projectTasks = new ArrayList<>();
 
-    public void setProject(Project project) {
-        this.project = project;
-    }
 
     public Backlog() {
     }
@@ -52,5 +50,21 @@ public class Backlog {
 
     public void setProjectIdentifier(String projectIdentifier) {
         this.projectIdentifier = projectIdentifier;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public List<ProjectTask> getProjectTasks() {
+        return projectTasks;
+    }
+
+    public void setProjectTasks(List<ProjectTask> projectTasks) {
+        this.projectTasks = projectTasks;
     }
 }
