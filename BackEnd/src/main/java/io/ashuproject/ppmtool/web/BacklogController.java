@@ -1,6 +1,7 @@
 package io.ashuproject.ppmtool.web;
 
 
+import io.ashuproject.ppmtool.domain.Project;
 import io.ashuproject.ppmtool.domain.ProjectTask;
 import io.ashuproject.ppmtool.services.MapValidationErrorService;
 import io.ashuproject.ppmtool.services.ProjectTaskService;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/backlog")
@@ -37,5 +39,36 @@ public class BacklogController {
 
     }
 
+    @GetMapping("/{backlog_id}")
+    public Iterable<ProjectTask> getProjectBacklog(@PathVariable String backlog_id){
+
+        return projectTaskService.findBacklogByID(backlog_id);
+    }
+
+    @GetMapping("/{backlog_id}/{pt_id}")
+    public ResponseEntity<?> getProjectTask(@PathVariable String backlog_id, @PathVariable String pt_id){
+
+        ProjectTask projectTask=projectTaskService.findPTByProjectSequence(backlog_id,pt_id);
+        return new ResponseEntity<ProjectTask>(projectTask, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{backlog_id}/{pt_id}")
+    public ResponseEntity<?> updateProjecTask(@Valid @RequestBody ProjectTask projectTask,BindingResult result,@PathVariable String backlog_id, @PathVariable String pt_id){
+
+        ResponseEntity<?> erroMap = mapValidationErrorService.MapValidationService(result);
+        if (erroMap != null) return erroMap;
+
+        ProjectTask updatesTask = projectTaskService.updateByProjectSequence(projectTask,backlog_id,pt_id);
+
+        return new ResponseEntity<ProjectTask>(updatesTask,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{backlog_id}/{pt_id}")
+    public ResponseEntity<?> deleteProjectTask(@PathVariable String backlog_id, @PathVariable String pt_id){
+
+        projectTaskService.deletePTbyProjectSequence(backlog_id,pt_id);
+
+        return new ResponseEntity<String>("Project task : '"+pt_id+"' was deleted successfully",HttpStatus.OK);
+    }
 
 }
