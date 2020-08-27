@@ -39,4 +39,4 @@ The security is provided by using this service by utilizing JWT tokens. For exam
 * Redux
 * Spring Security
 
-
+Note: In order for the project to work you need to keep the spring server and your database server on.
