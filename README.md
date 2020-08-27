@@ -26,3 +26,15 @@ It handles all the crud operations for the backlog of a project of a user.
 ### User Service
 
 The security is provided by using this service by utilizing JWT tokens. For example a user cannot see the projects of another user.
+
+##### Required Dependencies and installations:
+
+* Spring Web
+* Spring Data JPA
+* Spring Boot DevTools
+* Java Version 8
+* React
+* Redux
+* Spring Security
+
+
