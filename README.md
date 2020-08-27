@@ -2,6 +2,8 @@
 
 Personal Project Management tool is a full stack application that allows a user to create and manage their projects, while also maintaining project backlogs for a particular project.
 
+![PPM TOOL SERVICES](https://github.com/ashuneema28/PPMTool/blob/master/PPM%20TOOL.png)
+
 The Front End of the application has been built using React, Redux, HTML and CSS.
 The Back end has been built using Java and Spring framnework.
 
