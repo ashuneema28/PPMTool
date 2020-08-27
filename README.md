@@ -34,6 +34,8 @@ The security is provided by using this service by utilizing JWT tokens. For exam
 * Spring Boot DevTools
 * Java Version 8
 * React
+* react-dom
+* react-router
 * Redux
 * Spring Security
 
